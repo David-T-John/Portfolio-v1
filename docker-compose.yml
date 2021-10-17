@@ -1,25 +1,27 @@
+version: "3.7"
 services:
-  server:
-    container_name: server
+  dtj-server:
+    container_name: dtj-server
     restart: always
-    build: .
+    build: ./server
     ports:
       - "5000:5000"
-    volumes: .:/usr/src/app/server
+    volumes:
+      - ./server:/usr/src/app
     links:
-      - mongo
-
-  client:
-    container_name: client
+      - dtj-mongo
+  dtj-client:
+    container_name: dtj-client
     restart: always
     build: ./client
     ports:
-      - "3000:3000"
-
-    volumes: ./client:/usr/src/app/client
-  mongo:
+      - "80:80"
+    volumes:
+      - ./client:/usr/src/app
+  dtj-mongo:
+    container_name: dtj-mongo
     hostname: mongo
     restart: always
-    image: mongo
+    image: mongo:latest
     ports:
       - "27017:27017"
